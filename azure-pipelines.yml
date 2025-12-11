@@ -46,7 +46,9 @@ stages:
         - task: ManualValidation@1
           inputs:
             notifyUsers: 'ashutosh.pal26@outlook.com'
-            approvers: 'ashutosh.pal26@outlook.com'
+            approvers: |
+              ashutosh.pal26@outlook.com
+              ashutosh.pal26@gmail.com
   
   - stage: Apply
     dependsOn: Manual_Approval
