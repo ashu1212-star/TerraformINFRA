@@ -1,0 +1,2 @@
+
+variable "stg_details" {}
