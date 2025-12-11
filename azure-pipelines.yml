@@ -1,9 +1,10 @@
 trigger: none
 
 pool: Ashu-pool
+
 variables:
-name: $(Work_Dir)
-value:'$(System.DefaultWorkingDirectory)/environment/dev'
+  Work_Dir: '$(System.DefaultWorkingDirectory)/environments/dev'
+
 
 stages:
   - stage: INIT
@@ -36,7 +37,9 @@ stages:
           workingDirectory: $(Work_Dir)
           environmentServiceNameAzureRM: 'Ashu-svc'
 
-  - stage: Manual Approval
+  - stage: Manual_Approval
+    pool: server
+    dependsOn: INIT
     jobs:
       - job: Reviewer
         steps:
@@ -46,6 +49,7 @@ stages:
             approvers: 'ashutosh.pal26@gmail.com'
   
   - stage: Apply
+    dependsOn: Manual_Approval
     jobs: 
     - job: Apply
       steps:
