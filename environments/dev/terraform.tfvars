@@ -11,6 +11,10 @@ rg_details = {
         name     = "dev-rg-3"
         location = "canada central"
     }
+    rg4 = {
+        name     = "dev-rg-4"
+        location = "canada central"
+    }
 }
 
 stg_details = {
