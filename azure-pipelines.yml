@@ -37,7 +37,7 @@ stages:
           workingDirectory: $(Work_Dir)
           environmentServiceNameAzureRM: 'Ashu-svc'
 
-  - stage: Manual_approvl
+  - stage: Manual_approval
     pool: server
     dependsOn: INIT
     jobs:
@@ -51,7 +51,7 @@ stages:
 
   
   - stage: Apply
-    dependsOn: INIT
+    dependsOn: Manual_approval
     jobs: 
     - job: Apply
       steps:
