@@ -1,4 +1,8 @@
-trigger: none
+trigger:
+  branches: 
+   include:
+     - main
+     - dev
 
 pool: Ashu-pool
 
@@ -33,6 +37,7 @@ stages:
 
   
   - stage: Apply
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main') 
     dependsOn: Manual_approval
     jobs: 
     - job: Apply
