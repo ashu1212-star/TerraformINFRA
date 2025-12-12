@@ -1,3 +1,7 @@
+
+
+
+jobs:
  - job: init_and_plan
       steps:
       - task: TerraformTask@5
