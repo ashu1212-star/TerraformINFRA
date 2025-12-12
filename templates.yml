@@ -3,21 +3,21 @@
 
 jobs:
  - job: init_and_plan
-      steps:
-      - task: TerraformTask@5
-        displayName: init wala task
-        inputs:
-          provider: 'azurerm'
-          command: 'init'
-          workingDirectory: $(Work_Dir)
-          backendServiceArm: 'Ashu-svc'
-          backendAzureRmStorageAccountName: 'stg13example'
-          backendAzureRmContainerName: 'pravin'
-          backendAzureRmKey: 'pravinn.tfstate'
+   steps:
+   - task: TerraformTask@5
+     displayName: init wala task
+     inputs:
+       provider: 'azurerm'
+       command: 'init'
+       workingDirectory: $(Work_Dir)
+       backendServiceArm: 'Ashu-svc'
+       backendAzureRmStorageAccountName: 'stg13example'
+       backendAzureRmContainerName: 'pravin'
+       backendAzureRmKey: 'pravinn.tfstate'
 
-      - task: TerraformTask@5
-        inputs:
-          provider: 'azurerm'
-          command: 'plan'
-          workingDirectory: $(Work_Dir)
-          environmentServiceNameAzureRM: 'Ashu-svc'
+   - task: TerraformTask@5
+     inputs:
+       provider: 'azurerm'
+       command: 'plan'
+       workingDirectory: $(Work_Dir)
+       environmentServiceNameAzureRM: 'Ashu-svc'
