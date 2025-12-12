@@ -37,6 +37,15 @@ stages:
           workingDirectory: $(Work_Dir)
           environmentServiceNameAzureRM: 'Ashu-svc'
 
+    - job: Manua_approval
+      dependsOn: init_and_plan
+      pool: server
+      steps:
+      - task: ManualValidation@1
+        inputs:
+          notifyUsers: 'Ashutosh.pal26@outlook.com'
+          approvers: 'Ashutosh.pal26@outlook.com'
+
   
   - stage: Apply
     dependsOn: INIT
