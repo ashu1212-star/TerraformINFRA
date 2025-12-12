@@ -37,21 +37,9 @@ stages:
           workingDirectory: $(Work_Dir)
           environmentServiceNameAzureRM: 'Ashu-svc'
 
-  - stage: Manual_Approval
-    pool: server
-    dependsOn: INIT
-    jobs:
-      - job: Reviewer
-        steps:
-        - task: ManualValidation@1
-          inputs:
-            notifyUsers: 'ashutosh.pal26@outlook.com'
-            approvers: |
-              ashutosh.pal26@outlook.com
-              ashutosh.pal26@gmail.com
   
   - stage: Apply
-    dependsOn: Manual_Approval
+    dependsOn: INIT
     jobs: 
     - job: Apply
       steps:
