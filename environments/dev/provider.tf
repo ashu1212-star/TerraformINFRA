@@ -8,8 +8,8 @@ terraform {
 
 
 backend "azurerm" {
-  resource_group_name  = "dev-rg"
-  storage_account_name = "stg1example"
+  resource_group_name  = "rg13-example"
+  storage_account_name = "stg13example"
   container_name       = "pravin"
   key                  = "pravinn.tfstate"
 }

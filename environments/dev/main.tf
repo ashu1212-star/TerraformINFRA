@@ -2,12 +2,12 @@ module "rg" {
     source = "../modules/azurerm_resource_group"
     rg_details = var.rg_details
   }
-# module "stg" {
-#     depends_on = [ module.rg ]
-#     source = "../modules/azurerm_storage_account"
-#     stg_details = var.stg_details
+module "stg" {
+    depends_on = [ module.rg ]
+    source = "../modules/azurerm_storage_account"
+    stg_details = var.stg_details
   
-# }
+}
     module "vnet" {
         depends_on = [ module.rg ]
         source = "../modules/azurerm_virtual_network"
@@ -24,18 +24,18 @@ module "rg" {
         nic_details = var.nic_details
         subnet_ids = module.subnet.subnet_ids
     }
-    # module "sql_server" {
-    #     depends_on = [ module.rg ]
-    #     source = "../modules/azurerm_mssql_server"
-    #     sql_server_details = var.sql_server_details
+    module "sql_server" {
+        depends_on = [ module.rg ]
+        source = "../modules/azurerm_mssql_server"
+        sql_server_details = var.sql_server_details
 
-    # }
-    # module "sql_database" {
-    #     depends_on = [ module.sql_server ]
-    #     source = "../modules/azurerm_mysql_database"
-    #     sql_db_details = var.sql_db_details
-    #     server_ids = module.sql_server.server_ids
-    # }
+    }
+    module "sql_database" {
+        depends_on = [ module.sql_server ]
+        source = "../modules/azurerm_mysql_database"
+        sql_db_details = var.sql_db_details
+        server_ids = module.sql_server.server_ids
+    }
     module "vm" {
         depends_on = [ module.NIC ]
         source = "../modules/azurerm_linux_virtual_machine"
