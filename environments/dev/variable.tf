@@ -5,6 +5,6 @@ variable "nic_details" {}
 variable "sql_server_details" {}
 variable "sql_db_details" {}
 variable "vm_details" {}
-# variable "kv_details" {}
-# variable "kv_secret_details" {}
+variable "kv_details" {}
+variable "kv_secret_details" {}
 variable "stg_details" {}

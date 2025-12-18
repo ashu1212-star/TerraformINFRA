@@ -25,9 +25,12 @@ module "stg" {
         subnet_ids = module.subnet.subnet_ids
     }
     module "sql_server" {
-        depends_on = [ module.rg ]
+        depends_on = [ module.rg, module.key_vault_secreats ]
         source = "../modules/azurerm_mssql_server"
-        sql_server_details = var.sql_server_details
+        sql_server_details = var.sql_server_details 
+        kv_id = module.key_vault.kv_ids["kv1"]
+      
+       
 
     }
     module "sql_database" {
@@ -37,16 +40,23 @@ module "stg" {
         server_ids = module.sql_server.server_ids
     }
     module "vm" {
-        depends_on = [ module.NIC ]
+        depends_on = [ module.NIC , module.key_vault_secreats]
         source = "../modules/azurerm_linux_virtual_machine"
         vm_details = var.vm_details
         network_interface_ids = module.NIC.network_interface_ids
+        kv_id = module.key_vault.kv_ids["kv1"]
+
     }
-    # module "key_vault" {
-    #     source = "../modules/azurerm_key_vault"
-    #     kv_details = var.kv_details
-    # }
-    # module "key_vault_secreats" {
-    #     source = "../modules/azurerm_key_vault_secreats"
-    #     kv_secret_details = var.kv_secret_details
-    # }
+    module "key_vault" {
+      depends_on = [ module.rg ]
+        source = "../modules/azurerm_key_vault"
+        kv_details = var.kv_details
+
+    }
+   module "key_vault_secreats" {
+    depends_on = [ module.key_vault ]
+  source = "../modules/azurerm_key_vault_secreats"
+  kv_secret_details = var.kv_secret_details
+  kv_id = module.key_vault.kv_ids["kv1"] 
+}
+

@@ -91,8 +91,8 @@ sql_server_details = {
         mssql_server_name         = "dev-mssql-server-1"
         location                  = "canada central"
         resource_group_name       = "dev-rg"
-        administrator_login       = "adminuser"
-        administrator_login_password = "P@ssw0rd1234"
+          admin_username_secret = "sql1-user"
+    admin_password_secret = "sql1-password"
         sku_name                  = "B_Gen5_1"
         version                   = "12.0"
     }
@@ -100,8 +100,8 @@ sql_server_details = {
         mssql_server_name         = "dev-mssql-server-2"
         location                  = "canada central"
         resource_group_name       = "dev-rg-2"
-        administrator_login       = "adminuser2"
-        administrator_login_password = "P@ssw0rd5678"
+         admin_username_secret= "sql2-user"
+    admin_password_secret = "sql2-password"
         sku_name                  = "B_Gen5_1"
         version                   = "12.0"
     }
@@ -113,6 +113,7 @@ sql_db_details = {
         collation        = "SQL_Latin1_General_CP1_CI_AS"
         sku_name         = "S0"
         server_id         = "sqlserver1"
+        kv_key = "kv1"
     }
     sqldb2 = {
         sql_database_name = "dev-sqldb-2"
@@ -120,6 +121,7 @@ sql_db_details = {
         collation        = "SQL_Latin1_General_CP1_CI_AS"
         sku_name         = "S0"
         server_id         = "sqlserver2"
+        kv_key = "kv2"
     }
 }
 vm_details = {
@@ -128,19 +130,49 @@ vm_details = {
         location                   = "canada central"
         resource_group_name        = "dev-rg"
         size                       = "Standard_D2s_v3"
-        admin_username             = "azureuser"
-        admin_password             = "P@ssw0rd1234"
         network_interface_ids      = "nic1"
-        
+         admin_username_secret = "vm1-username"
+         admin_password_secret= "vm1-password"
+        kv_key = "kv1"
     }
     vm2 = {
         vm_name = "dev-vm-2"
         location                   = "canada central"
         resource_group_name        = "dev-rg-2"
         size                       = "Standard_D2s_v3"
-        admin_username             = "azureuser2"
-        admin_password             = "P@ssw0rd5678"
+         admin_username_secret = "vm2-username"
+    admin_password_secret = "vm2-password"
+         kv_key = "kv2"
+       
         network_interface_ids      = "nic2"
        
     }
+}
+
+kv_details = {
+    kv1 = {
+        key_vault_name                = "Ashu-tijori1"
+        location                      = "canada central"
+        resource_group_name           = "dev-rg"
+        sku_name                      = "standard"
+    }
+}
+
+kv_secret_details = {
+    secret1 = {
+        keyvaultname      = "Ashu-tijori1"
+
+        vm1-username        = "adminuser1"
+        vm1-password        = "Passw0rd@1234"
+
+        vm2-username         = "adminuser2"
+        vm2-password        = "Passw0rd@5678"  
+
+        sql1-user         = "sqladmin1"
+        sql1-password     = "Sqladmin@1234  "
+
+        sql2-user         = "sqladmin2"
+        sql2-password     = "Sqladmin@5678  "
+    }
+
 }
