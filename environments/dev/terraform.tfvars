@@ -151,7 +151,7 @@ vm_details = {
 
 kv_details = {
     kv1 = {
-        key_vault_name                = "Ashu-tijori1"
+        key_vault_name                = "Ashu-Tijori"
         location                      = "canada central"
         resource_group_name           = "dev-rg1"
         sku_name                      = "standard"
@@ -160,7 +160,7 @@ kv_details = {
 
 kv_secret_details = {
     secret1 = {
-        keyvaultname      = "Ashu-tijori1"
+        keyvaultname      = "Ashu-Tijori"
 
         vm1-username        = "adminuser1"
         vm1-password        = "Passw0rd@1234"
