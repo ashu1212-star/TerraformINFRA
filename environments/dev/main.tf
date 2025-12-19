@@ -57,6 +57,6 @@ module "stg" {
     depends_on = [ module.key_vault ]
   source = "../modules/azurerm_key_vault_secreats"
   kv_secret_details = var.kv_secret_details
-  kv_id = module.key_vault.kv_ids["kv1"] 
+    kv_id = module.key_vault.kv_ids["kv1"]
 }
 
