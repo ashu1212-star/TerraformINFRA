@@ -1,0 +1,72 @@
+trigger: none
+pool: Ashu-pool
+
+variables:
+  Work_Dir: '$(System.DefaultWorkingDirectory)/environments/dev'
+
+
+stages:
+- stage: Terraform_init
+  displayName: Terraform init and plan
+  jobs: 
+  - job: Terraform_init
+    steps: 
+    - task: TerraformInstaller@1
+      displayName: Tool_install
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: Terraform_init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(Work_Dir)'
+        backendServiceArm: 'Ashu-svc'
+        backendAzureRmStorageAccountName: 'stg13example'
+        backendAzureRmContainerName: 'pravin'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform_plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(Work_Dir)'
+        environmentServiceNameAzureRM: 'Ashu-svc'
+
+- stage: Manual_validation
+  dependsOn: Terraform_init
+  pool: server
+  jobs:
+    - job: Manual_approval
+      
+      steps: 
+      - task: ManualValidation@1
+        inputs:
+          notifyUsers: 'Ashutosh.pal26@outlook.com'
+          approvers: 'Ashutosh.pal26@outlook.com'
+
+- stage: Terraform_Apply
+  dependsOn: Manual_validation
+  jobs: 
+  - job: Terraform_Apply
+    steps:
+    - task: TerraformTask@5
+      displayName: Terraform_init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(Work_Dir)'
+        backendServiceArm: 'Ashu-svc'
+        backendAzureRmStorageAccountName: 'stg13example'
+        backendAzureRmContainerName: 'pravin'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform_Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(Work_Dir)'
+        environmentServiceNameAzureRM: 'Ashu-svc'
