@@ -24,7 +24,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd environments/dev
+          cd $(Work_Dir)
           tflint --init
           tflint
     
@@ -64,6 +64,7 @@ stages:
 
     - task: PowerShell@2
       displayName: 'Terraform Force Unlock'
+      condition: failed()
       inputs:
         targetType: 'inline'
         script: |
