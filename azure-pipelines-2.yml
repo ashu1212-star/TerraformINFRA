@@ -31,6 +31,13 @@ stages:
         cliProjectKey: 'TODO_INFRA_INFRA-AUTOMATION.git_da465554-ec99-4544-8f82-a80e4ca59bf6'
         cliSources: '.'
 
+    - task: SonarQubeAnalyze@8
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+
+    - task: SonarQubePublish@8
+      inputs:
+        pollingTimeoutSec: '300'
 
 
 
