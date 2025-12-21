@@ -9,10 +9,11 @@ stages:
 - stage: Scanning
   jobs: 
   - job: Sonarscan_and_linting
-    continueOnError: true
+    
     steps:
     - task: PowerShell@2
       displayName: Tflint_scanning
+      continueOnError: true
       inputs:
         targetType: 'inline'
         script: |
@@ -22,6 +23,7 @@ stages:
     
     - task: SonarQubePrepare@8
       displayName: Sonarscan
+      continueOnError: true
       inputs:
         SonarQube: 'SonarSVC'
         scannerMode: 'cli'
