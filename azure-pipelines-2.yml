@@ -6,6 +6,12 @@ variables:
 
 
 stages:
+- stage: Scanning
+  jobs: 
+  - job: Sonarscan_and_linting
+    steps:
+    
+
 - stage: Terraform_init
   displayName: Terraform init and plan
   jobs: 
