@@ -7,27 +7,6 @@ rg_details = {
         name     = "dev-rg-2"
         location = "canada central"
     }
-    rg3 = {
-        name     = "dev-rg-3"
-        location = "canada central"
-    }
-    rg4 = {
-        name     = "dev-rg-4"
-        location = "canada central"
-    }
-    rg5 = {
-        name     = "dev-rg-5"
-        location = "canada central"
-    }
-
-    rg6 = {
-        name     = "dev-rg-6"
-        location = "canada central"
-    }
-     rg7 = {
-        name     = "dev-rg-7"
-        location = "canada central"
-    }
 }
 
 stg_details = {
