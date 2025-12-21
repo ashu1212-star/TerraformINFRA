@@ -1,18 +1,19 @@
 terraform {
+  required_version = ">= 1.3.0"
+
   required_providers {
-    azurerm ={
-        source = "hashicorp/azurerm"
-        version = "4.54.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.54"
     }
   }
 
-
-backend "azurerm" {
-  resource_group_name  = "rg13-example"
-  storage_account_name = "stg13example"
-  container_name       = "pravin"
-  key                  = "terraform.tfstate"
-}
+  backend "azurerm" {
+    resource_group_name  = "rg13-example"
+    storage_account_name = "stg13example"
+    container_name       = "pravin"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
