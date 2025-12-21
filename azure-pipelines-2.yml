@@ -10,10 +10,30 @@ stages:
   jobs: 
   - job: Sonarscan_and_linting
     steps:
+    - task: PowerShell@2
+      displayName: Tflint_scanning
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd environments/dev
+          tflint --init
+          tflint
     
+    - task: SonarQubePrepare@8
+      displayName: Sonarscan
+      inputs:
+        SonarQube: 'SonarSVC'
+        scannerMode: 'cli'
+        configMode: 'manual'
+        cliProjectKey: 'TODO_INFRA_INFRA-AUTOMATION.git_da465554-ec99-4544-8f82-a80e4ca59bf6'
+        cliSources: '.'
+
+
+
 
 - stage: Terraform_init
   displayName: Terraform init and plan
+  dependsOn: Scanning
   jobs: 
   - job: Terraform_init
     steps: 
