@@ -18,7 +18,7 @@ stages:
         scannerMode: 'cli'
         configMode: 'manual'
         cliProjectKey: 'TODO_INFRA_INFRA-AUTOMATION.git_da465554-ec99-4544-8f82-a80e4ca59bf6'
-        cliSources: 'environment/dev'
+        cliSources: '$(Work_Dir)'
     - task: PowerShell@2
       displayName: Tflint_scanning
       continueOnError: true
