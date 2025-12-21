@@ -62,6 +62,15 @@ stages:
         backendAzureRmContainerName: 'pravin'
         backendAzureRmKey: 'terraform.tfstate'
 
+    - task: PowerShell@2
+      displayName: 'Terraform Force Unlock'
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)/environments/dev
+          terraform force-unlock 7dc35c41-9b0a-7543-1e4c-a7ef404df0ea
+    
+
     - task: TerraformTask@5
       displayName: Terraform_plan
       inputs:
