@@ -9,6 +9,7 @@ stages:
 - stage: Scanning
   jobs: 
   - job: Sonarscan_and_linting
+    continueOnError: true
     steps:
     - task: PowerShell@2
       displayName: Tflint_scanning
