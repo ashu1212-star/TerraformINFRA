@@ -1,10 +1,30 @@
-variable "rg_details" {}
-variable "vnet_details" {}
-variable "subnet_details" {}
-variable "nic_details" {}
-variable "sql_server_details" {}
-variable "sql_db_details" {}
-variable "vm_details" {}
-variable "kv_details" {}
-variable "kv_secret_details" {}
-variable "stg_details" {}
+variable "rg_details" {
+   type = map(any)
+}
+variable "vnet_details" {
+   type = map(any)
+}
+variable "subnet_details" {
+   type = map(any)
+}
+variable "nic_details" {
+   type = map(any)
+}
+variable "sql_server_details" {
+   type = map(any)
+}
+variable "sql_db_details" {
+   type = map(any)
+}
+variable "vm_details" {
+   type = map(any)
+}
+variable "kv_details" {
+   type = map(any)
+}
+variable "kv_secret_details" {
+   type = map(any)
+}
+variable "stg_details" {
+   type = map(any)
+}
