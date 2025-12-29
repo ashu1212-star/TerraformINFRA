@@ -27,7 +27,11 @@ stages:
           cd $(Work_Dir)
           tflint --init
           tflint
-    
+
+
+    - task: Retire@1
+      inputs:
+        path: '$(System.DefaultWorkingDirectory)/environments/dev'
     
 
     - task: SonarQubeAnalyze@8
