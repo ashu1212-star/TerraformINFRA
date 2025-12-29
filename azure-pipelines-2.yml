@@ -27,11 +27,22 @@ stages:
           cd $(Work_Dir)
           tflint --init
           tflint
-
-
-    - task: Retire@1
+  
+    - task: NodeTool@0
+      displayName: Install Node.js
       inputs:
-        path: '$(System.DefaultWorkingDirectory)/environments/dev'
+            versionSpec: '18.x'
+
+    - task: PowerShell@2
+      displayName: RetireJS_scanning
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        script: |
+          npm install -g retire
+          retire --path "$(System.DefaultWorkingDirectory)/environments/dev"
+
+ 
     
 
     - task: SonarQubeAnalyze@8
