@@ -28,22 +28,6 @@ stages:
           tflint --init
           tflint
   
-    - task: NodeTool@0
-      displayName: Install Node.js
-      inputs:
-            versionSpec: '18.x'
-
-    - task: PowerShell@2
-      displayName: RetireJS_scanning
-      continueOnError: true
-      inputs:
-        targetType: 'inline'
-        script: |
-          npm install -g retire
-          retire --path "$(System.DefaultWorkingDirectory)/environments/dev"
-
- 
-    
 
     - task: SonarQubeAnalyze@8
       inputs:
@@ -52,6 +36,24 @@ stages:
     - task: SonarQubePublish@8
       inputs:
         pollingTimeoutSec: '300'
+  
+  - job: Retire_js
+    displayName: Retirescan Results
+    steps:
+        - task: NodeTool@0
+          displayName: Install Node.js
+          inputs:
+                versionSpec: '18.x'
+
+        - task: PowerShell@2
+          displayName: RetireJS_scanning
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: |
+              npm install -g retire
+              retire --path "$(System.DefaultWorkingDirectory)/environments/dev" --verbose
+
 
 
 
