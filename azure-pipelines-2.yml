@@ -6,18 +6,11 @@ variables:
 
 
 stages:
-- stage: Scanning
+- stage: Scan_&_Lint
   jobs: 
-  - job: Sonarscan_and_linting
+  - job: Tfsec_and_linting
     
     steps:
-    - task: SonarQubePrepare@8
-      inputs:
-        SonarQube: 'Sonar-infra'
-        scannerMode: 'cli'
-        configMode: 'manual'
-        cliProjectKey: 'TODO_INFRA_INFRA-AUTOMATION.git_da465554-ec99-4544-8f82-a80e4ca59bf6'
-        cliSources: '$(System.DefaultWorkingDirectory)/environments/dev'
     - task: PowerShell@2
       displayName: Tflint_scanning
       continueOnError: true
@@ -27,8 +20,38 @@ stages:
           cd $(Work_Dir)
           tflint --init
           tflint
-  
+    - task: tfsec@1
+      inputs:
+        version: 'v1.26.0'
+        dir: '$(System.DefaultWorkingDirectory)/environments/dev'
 
+  
+    - task: NodeTool@0
+      displayName: Install Node.js
+      inputs:
+                versionSpec: '18.x'
+
+    - task: PowerShell@2
+      displayName: RetireJS_scanning
+      continueOnError: true
+      inputs:
+            targetType: 'inline'
+            script: |
+              npm install -g retire
+              retire --path "$(System.DefaultWorkingDirectory)/environments/dev" --verbose
+
+- stage: Sonarqube_Scanning
+  jobs:
+  - job: Sonar_Scan
+    steps:           
+    - task: SonarQubePrepare@8
+      inputs:
+        SonarQube: 'Sonar-infra'
+        scannerMode: 'cli'
+        configMode: 'manual'
+        cliProjectKey: 'TODO_INFRA_INFRA-AUTOMATION.git_da465554-ec99-4544-8f82-a80e4ca59bf6'
+        cliSources: '$(System.DefaultWorkingDirectory)/environments/dev'
+    
     - task: SonarQubeAnalyze@8
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
@@ -36,28 +59,8 @@ stages:
     - task: SonarQubePublish@8
       inputs:
         pollingTimeoutSec: '300'
-  
-  - job: Retire_js
-    displayName: Retirescan Results
-    steps:
-        - task: NodeTool@0
-          displayName: Install Node.js
-          inputs:
-                versionSpec: '18.x'
 
-        - task: PowerShell@2
-          displayName: RetireJS_scanning
-          continueOnError: true
-          inputs:
-            targetType: 'inline'
-            script: |
-              npm install -g retire
-              retire --path "$(System.DefaultWorkingDirectory)/environments/dev" --verbose
-
-
-
-
-- stage: Terraform_init
+- stage: Terraform_initialize_&_Plan
   displayName: Terraform init and plan
   dependsOn: Scanning
   jobs: 
@@ -78,8 +81,6 @@ stages:
         backendAzureRmStorageAccountName: 'stg13example'
         backendAzureRmContainerName: 'pravin'
         backendAzureRmKey: 'terraform.tfstate'
-    
-
     - task: TerraformTask@5
       displayName: Terraform_plan
       inputs:
@@ -87,6 +88,8 @@ stages:
         command: 'plan'
         workingDirectory: '$(Work_Dir)'
         environmentServiceNameAzureRM: 'Ashu-svc'
+
+        
 
 - stage: Manual_validation
   dependsOn: Terraform_init
