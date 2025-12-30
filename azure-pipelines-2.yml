@@ -6,7 +6,7 @@ variables:
 
 
 stages:
-- stage: Scan_&_Lint
+- stage: Scan_and_Lint
   jobs: 
   - job: Tfsec_and_linting
     
@@ -41,6 +41,7 @@ stages:
               retire --path "$(System.DefaultWorkingDirectory)/environments/dev" --verbose
 
 - stage: Sonarqube_Scanning
+  dependsOn: Scan_and_Lint
   jobs:
   - job: Sonar_Scan
     steps:           
@@ -60,9 +61,9 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
 
-- stage: Terraform_initialize_&_Plan
+- stage: Terraform_initialize_and_Plan
   displayName: Terraform init and plan
-  dependsOn: Scanning
+  dependsOn:  Sonarqube_Scanning
   jobs: 
   - job: Terraform_init
     steps: 
@@ -89,10 +90,23 @@ stages:
         workingDirectory: '$(Work_Dir)'
         environmentServiceNameAzureRM: 'Ashu-svc'
 
+- stage: Cost_Management
+  displayName: Infracost Cost Estimation
+  dependsOn: Terraform_initialize_and_Plan
+  jobs:
+  - job: Infracost
+    displayName: Infracost Directory Scan
+    steps: 
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          infracost breakdown --path INFRA-AUTOMATION
         
 
 - stage: Manual_validation
-  dependsOn: Terraform_init
+  dependsOn: Cost_Management
   pool: server
   jobs:
     - job: Manual_approval
