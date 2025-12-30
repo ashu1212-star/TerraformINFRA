@@ -102,7 +102,7 @@ stages:
         targetType: 'inline'
         script: |
           cd $(System.DefaultWorkingDirectory)
-          infracost breakdown --path "$(System.DefaultWorkingDirectory)/INFRA-AUTOMATION/environments/dev" 
+          infracost breakdown --path "$(System.DefaultWorkingDirectory)/environments/dev" 
         
 
 - stage: Manual_validation
